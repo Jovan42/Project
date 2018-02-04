@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="css/watch.css">
+	<link rel="stylesheet" type="text/css" href="css/header.css">
+    <script src="js/jquery-2.1.0.min.js"></script>
+	<script src="js/watch.js"></script>
+	<script src="js/header.js"></script>
+</head>
+<body>
+	 <header>
+    <a href="./main.html"><img alt="" src="img/home.png" width="70px"></a>
+        <form action="./Login" method="post" id="loginForm" class="form">
+            <input type="text" name="userName" placeholder="User name" required>
+            <input type="password" name="password1" placeholder="Password" required>
+            <input type="submit" value="Log In"> 
+        </form>
+        <form action="./register.html" id="registerForm"  class="form">
+    		<input type="submit" value="Register" />
+		</form>
+        <div class="dropdown">
+ 			<button class="dropbtn" id="loggedInUser" >Guest</button>
+  				<div class="dropdown-content">
+   				<a href="#" id="myProfile">My Profile</a>
+  				<a href="./addVideo.html">Add Video</a>
+   				<a href="./LogOut">Log out</a> 
+  			</div>
+		</div>
+    </header>
+    <div id="content"> 
+    <div id='videoContainer'>
+    	<iframe width="560"  height="315" src="https://www.youtube.com/embed/?color=white" id="video"></iframe> 
+    	<h2 id="name" >Name: </h2>
+    	<p id="owner">By</p> 
+    	<p id="date">date</p>
+    </div>
+    <div id="comments">
+    	<h2>Comments: </h2>
+    	<form id="commentForm" action="./AddComment" method="post">
+    		<textarea  name="description" cols="40" rows="5" placeholder="Write comment" id = "textComment"></textarea> <br>
+    		<input type="button" value="Submit Comment" id="btnComment" onclick="submitComment()">
+    		<input type="hidden" name="videoid" id="videoid">
+    		<input type="hidden" name="content" id ="comContent"> 
+    	</form>
+    </div>
+    </div>
+</body>
+</html>

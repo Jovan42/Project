@@ -1,0 +1,50 @@
+#content {
+	margin-top: 10%;
+	color: white;
+}
+
+#content {
+	margin-top: 120px;
+	color: white;
+}
+#register {
+	width : 19%;
+	background-color: #050505;;
+    margin: 0.5%;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+	color: white;
+}
+
+.tx {
+	width : 25%;
+	background-color: #050505;;
+    margin: 0.5%;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+	color: white;
+}
+
+#content textarea {
+	width : 25%;
+	color: white;
+	background-color: #050505;;
+    margin: 0.5%;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+.cb{
+	float: left;
+	display: inline-block;
+	width: Auto;
+	margin-left: 2%;
+	margin-right: 2%;
+}
+
+#content button {
+	color: white;
+}
