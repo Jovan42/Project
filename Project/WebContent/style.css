@@ -5,6 +5,10 @@
     box-sizing: border-box;
 }
 
+#content {
+	color: white;
+}
+
 html {
     background: #1a1a1a;
     width: 100%;    
@@ -43,7 +47,7 @@ select {
 }
 #content {
 	width: 100%;
-	margin-top: 1%;
+
 	float: right;
 	overflow-x: auto;
 	padding: 0 3%;

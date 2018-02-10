@@ -27,10 +27,6 @@ public class ProfileServlet extends HttpServlet {
     public ProfileServlet() {
         super();
         // TODO Auto-generated constructor stub
-        
-        
-        
-        
     }
 
 	/**
