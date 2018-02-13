@@ -8,7 +8,6 @@ $(document).ready(function(e) {
         	var loggedInUser = document.getElementById('loggedInUser');
         	var myProfile = document.getElementById("myProfile");
         	
-        	console.log(myProfile);
         	if(response["user"] == null) {
                 $(loggedInUser).css("display", "none"); 
                 $(loginForm).css("display", "block");
@@ -18,7 +17,7 @@ $(document).ready(function(e) {
                 $(loginForm).css("display", "none");
                 $(registerForm).css("display", "none");
         		loggedInUser.innerHTML = response["user"]["userName"];
-        		myProfile.href =  "./Project/Profile?userName=" + response["user"]["userName"];
+        		myProfile.href =  "./profile.html?userName=" + response["user"]["userName"];
             }        	
         },
         error: function(request, message, error) {

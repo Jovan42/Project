@@ -157,24 +157,26 @@ function getAllUrlParams(url) {
 function createDiv(element) {
 	var date = new Date(element['created']);
 	var newDate = date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear(); 
-	
+	var owner =  element['ownersUserName'];
 	var newDiv = $('<div></div>');
 	var vidDiv = $('<div></div>');
 	var pName = $('<p> Name: ' + element['name'] +'</p>');
-	var pOwner = $('<p> Owner: ' + element['ownersUserName'] +'</p>');
-	var pDate = $('<p> Date:' + newDate +'</p>');
-	console.log(newDiv);
-	console.log(pName);
-	
+	var pOwner = $('<a href="./profile.html?userName=' + owner + '"><p> Owner: ' + owner +'</p></a>');
+	var pDate = $('<p> Date:' + newDate +'</p>');	
 	newDiv.css({
 		'background': 'black',
 		'color' : 'white',
 	});
+	
+	console.log('url("' + element['tumbnailURL']+'")');
+	console.log(element);
 	vidDiv.css({
-		'background': 'url("img/defThumb.jpg")',
+		'background': 'url("' + element['tumbnailURL']+'"), url("img/defThumb.jpg")',
 		'background-size' : 'cover',
 
 	});
+	
+	
 	vidDiv.addClass('vidDiv');
 	newDiv.addClass('aboutDiv');
 	$('#content').append(newDiv);

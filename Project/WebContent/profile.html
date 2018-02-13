@@ -3,9 +3,12 @@
 <head>
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="css/profile.css">
     <link rel="stylesheet" type="text/css" href="css/header.css">
     <script src="js/jquery-2.1.0.min.js"></script>
 	<script src="js/header.js"></script>
+	<script src="js/profile.js"></script>
+	<script src="js/follow.js"></script>
 </head>
 <body>
     <header>
@@ -28,7 +31,19 @@
 		</div>
     </header>
     <div id ="content">
+    <div id="info">
     	<h1 id = "name">Name</h1>
+    	<div class="infoContainer"><p class="desc">First Name: </p> <p class="value" id="fistName">FirstName</p></div> <br>
+    	<div class="infoContainer"><p class="desc">Last Name: </p> <p class="value" id="lastName">LastName</p> </div><br>
+    	<div class="infoContainer"><p class="desc">eMail: </p> <p class="value" id="eMail">eMail</p></div> <br>
+    	<div class="infoContainer"><p class="desc">Description: </p> <p class="value" id="description">Lorem ipsum dolor sit amet, consequat tortor faucibus id quisque, laoreet enim amet sit pulvinar, et blandit tincidunt dictum, viverra adipiscing. Quis urna, massa nonummy etiam nunc tortor. Sit ut tellus vel nibh sit, odio ut volutpat, ipsum fermentum potenti arcu praesentium. Pellentesque suspendisse amet aliquet. Convallis elit elit egestas, lacinia vel, tellus nulla pede, dolor fusce. Justo mus pellentesque massa in neque, vivamus mi vel, ut nibh, mauris nam egestas nonummy, dictumst anim auctor lorem ut erat amet. Sed wisi quisque bibendum ipsum, viverra neque potenti vel ut wisi quis, leo eget quis sapiente ante, aliquip sed rutrum porttitor cursus. Metus dolor id, pharetra nisl non neque vestibulum. Scelerisque dolores ornare ac, sed odio tempor a condimentum quam, rutrum ultrices, nec suspendisse dignissim et lorem eleifend. Auctor eu odio consequat sit, curabitur dis nullam suspendisse, a arcu arcu ipsum mi volutpat suscipit, ullamcorper duis malesuada adipiscing. Metus viverra non quis ligula, non exercitation, vitae id blandit, mollis vehicula itaque metus suspendisse at metus. Luctus orci imperdiet magna neque ultrices, metus vitae aenean euismod lectus neque.</p></div> <br>
+   		<div class="infoContainer"><p class="desc">Created: </p> <p class="value" id="created">Created</p></div> <br>
+   		<button id="follow" onclick="follow(this)">Follow</button>
+  		
+	</div>
+   	<div id="followers">
+   	<h2>Followers: </h2>
+   	</div>	
     </div>
 </body>
 </html>

@@ -100,7 +100,7 @@ public class CommentRatesDAO implements IDAO {
         
         PreparedStatement pstmt = null;
         try {
-            String query = "INSERT INTO commentrates (like, date, owner, commentID) VALUES (?, ?, ?, ?) ";
+            String query = "INSERT INTO commentrates (commentrates.like, date, owner, commentID) VALUES (?, ?, ?, ?) ";
 
             pstmt = conn.prepareStatement(query);
             int index = 1;
@@ -131,7 +131,7 @@ public class CommentRatesDAO implements IDAO {
 		
 		PreparedStatement pstmt = null;
 		try {
-			String query = "UPDATE commentrates SET like = ?, date = ?, owner = ?, commentID = ? WHERE id = ?";
+			String query = "UPDATE commentrates SET commentrates.like = ?, date = ?, owner = ?, commentID = ? WHERE id = ?";
 			
 			pstmt = conn.prepareStatement(query);
 			int index = 1;
@@ -340,5 +340,41 @@ public class CommentRatesDAO implements IDAO {
 	        }
 	    if(comments == null) return 0;
         else return comments.size();
+	}
+
+	public CommentRate getUsersRate(int commentID, String userName) {
+		Connection conn = ConnectionManager.getConnection();
+		ArrayList<Integer> comments = new ArrayList<>();
+	    PreparedStatement pstmt = null;
+	    ResultSet rset = null;
+	    String res = "none";
+	    try {
+	    	String query = "SELECT * FROM commentrates WHERE commentID = ? AND owner = ? ";
+	           
+            pstmt = conn.prepareStatement(query);
+            System.out.println(pstmt);
+            pstmt.setInt(1, commentID);
+            pstmt.setString(2, userName);
+            rset = pstmt.executeQuery();
+
+            if(rset.next()) {
+            	 int index = 1;
+            	 int id = rset.getInt(index++);
+                 boolean like = rset.getBoolean(index++);
+                 Date created = rset.getDate(index++);           
+                 
+
+                 return new CommentRate(id, like, created, userName, commentID);
+            } 
+	            
+	        } catch (SQLException ex) {
+	            System.out.println("Greska u SQL upitu!");
+	            ex.printStackTrace();
+
+	        } finally {
+	            try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+	            try {rset.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+	        }
+	    return null;
 	}
 }

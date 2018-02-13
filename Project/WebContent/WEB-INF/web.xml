@@ -2,7 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
   <display-name>Project</display-name>
   <welcome-file-list>
-    <welcome-file>/Home</welcome-file>
+    <welcome-file>main.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
     <welcome-file>index.jsp</welcome-file>
     <welcome-file>default.html</welcome-file>
@@ -131,5 +131,75 @@
   <servlet-mapping>
     <servlet-name>ServletAddVideo</servlet-name>
     <url-pattern>/AddVideo</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletCommentRates</display-name>
+    <servlet-name>ServletCommentRates</servlet-name>
+    <servlet-class>project.servlets.ServletCommentRates</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletCommentRates</servlet-name>
+    <url-pattern>/CommentRates</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletFollow</display-name>
+    <servlet-name>ServletFollow</servlet-name>
+    <servlet-class>project.servlets.ServletFollow</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletFollow</servlet-name>
+    <url-pattern>/Follow</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>EditProfile</display-name>
+    <servlet-name>EditProfile</servlet-name>
+    <servlet-class>project.servlets.EditProfile</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditProfile</servlet-name>
+    <url-pattern>/Edit</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletDeleteUser</display-name>
+    <servlet-name>ServletDeleteUser</servlet-name>
+    <servlet-class>project.servlets.ServletDeleteUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletDeleteUser</servlet-name>
+    <url-pattern>/DeleteUser</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletBanUser</display-name>
+    <servlet-name>ServletBanUser</servlet-name>
+    <servlet-class>project.servlets.ServletBanUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletBanUser</servlet-name>
+    <url-pattern>/BanUser</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletVideoEdit</display-name>
+    <servlet-name>ServletVideoEdit</servlet-name>
+    <servlet-class>project.servlets.ServletVideoEdit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletVideoEdit</servlet-name>
+    <url-pattern>/EditVideo</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletDeleteVideo</display-name>
+    <servlet-name>ServletDeleteVideo</servlet-name>
+    <servlet-class>project.servlets.ServletDeleteVideo</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletDeleteVideo</servlet-name>
+    <url-pattern>/DeleteVideo</url-pattern>
   </servlet-mapping>
 </web-app>

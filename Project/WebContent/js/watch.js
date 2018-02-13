@@ -7,7 +7,7 @@ $(document).ready(function(e) {
         data: { "videoID" : getAllUrlParams(window.location.href).videoid, 
         },
         success: function(response) {
-        	
+        	console.log(response);
         	if(response['user'] == 'Guest') {
         		$('#commentForm').css("display", "none"); 
         	}
@@ -20,17 +20,43 @@ $(document).ready(function(e) {
         	
         	iframeVideo.src = 'https://www.youtube.com/embed/' + response['Video']['url'] + '?color=white';
         	name.innerHTML = response['Video']['url'];
-        	owner.innerHTML = 'By: ' + response['Video']['ownerUserName'];
+        	owner.innerHTML = ('By: ' + response['Video']['ownerUserName']);
+        	owner.href = './profile.html?userName=' + response['Video']['ownerUserName'];
+        		
         	
         	var date = document.getElementById('date');
         	date.innerHTML = formatedDate;
-        	
-        	
+        	document.getElementById("upvotes").innerHTML  = response['Likes'];
+        	document.getElementById("downvotes").innerHTML  = response['Dislikes'];
+        	if(response['Video']['comments'] == true){
+        		
         	var videos = response["Comments"];
         	videos.forEach(function(element) { 
         		createDiv(element);
         		
         	});
+        	} else $('#comments').css('display','none');
+        	if(response['prati'] == true) {
+        		document.getElementById('follow').innerHTML= 'Unfollow';
+        	}
+        	if(response['Video']['rate'] == true){
+        	var userRate =  response['UserRate'];        	
+        	switch (userRate) {
+			case "like":
+				document.getElementById("upvoteImg").src = "img/upvoted.png";
+				break;
+			case "dislike":
+				document.getElementById("downvoteImg").src = "img/downvoted.png";
+				break;
+			default:
+				break;
+			}} else {
+				$('#upvoteDiv').css('display','none');
+				$('#downvoteDiv').css('display','none');
+			}
+        	
+        	if(response['role'] == true || response['user'].toLowerCase() ==  getAllUrlParams(window.location.href).username)
+        		ifAdmin(getAllUrlParams(window.location.href).videoid, response['Video']['deleted']);
         },
         error: function(request, message, error) {
 			alert('GRESKA: ' + error);
@@ -122,25 +148,136 @@ function submitComment() {
 }
 
 function createDiv(element) {
-	var date = new Date(element['created']);
-	var newDate = date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear(); 
+	var upvoteURL = 'img/upvote.png';
+	var downvoteURL = 'img/downvote.png';
 	
-	var newDiv = $('<div></div>');
-	
-	var pContent = $('<p>' + element['content'] +'</p>');
-	var pOwner = $('<p> Owner: ' + element['ownerUserName'] +'</p>');
-	var pDate = $('<p> Date:' + newDate +'</p>');
-	
-	pOwner.css({
-		'color': '#808080',
-	});
-	pDate.css({
-		'color': '#808080',
-	});
+	$.ajax({
+		 url: './CommentRates',
+			type: 'GET',
+	        dataType: 'json', 
+	        data: { "videoID" : getAllUrlParams(window.location.href).videoid, 
+	        		"commentID" : element['id'],
+	        },
+	        success: function(response) {
+	        	
+	        	if(response['UserRate'] == 'like') upvoteURL = 'img/upvoted.png';
+	        	if(response['UserRate'] == 'dislike') downvoteURL = 'img/downvoted.png'
+	        		var date = new Date(element['created']);
+	        	var newDate = date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear(); 
+	        	
+	        	var newDiv = $('<div></div>');
+	        	
+	        	var pContent = $('<p>' + element['content'] +'</p>');
+	        	var pOwner = $('<p> By: ' + element['ownerUserName'] +'</p>');
+	        	var pDate = $('<p> Date:' + newDate +'</p>');
+	        	
+	        	newDiv.css({
+	        		'padding-bottom' : '5%',
+	        	});
+	        	pContent.css({
+	        		'max-width' : '560px',
+	        		'margin-bottom' : '5%',
+	        	});
+	        	pOwner.css({
+	        		'color': '#808080',
+	        	});
+	        	pDate.css({
+	        		'color': '#808080',
+	        	});
+	        	
+	        	var id = element['id'];
+	        	var likes = element['likes'];
+	        	var dislikes = element['dislikes'];
+	        	var vote = $('<div id="upvoteDiv' + id +'" class="vote" onclick="upvote(this)"> ' +
+	        					'<img alt="upvote" id="upvoteImg" src="'+ upvoteURL +'"  height="50px">' +
+	        					'<p id="upvotes">' + likes +'</p>' +
+	        				'</div>' +
+	        				'<div id="downvoteDiv' + id +'" class="vote" onclick="downvote(this)">' +
+	        					'<img alt="downvote" id="downvoteImg" src="' + downvoteURL + '" height="50px">' +
+	        					'<p id="downvotes">' + dislikes + '</p>' +
+	        				'</div>"');
 
-	newDiv.addClass('comDiv');
-	$('#comments').append(newDiv);
-	newDiv.append(pContent);
-	newDiv.append(pOwner);
-	newDiv.append(pDate);
+	        	newDiv.addClass('comDiv');
+	        	$('#comments').append(newDiv);
+	        	
+	        	newDiv.append(pContent);
+	        	newDiv.append(vote)
+	        	newDiv.append(pOwner);
+	        	newDiv.append(pDate);
+	        },
+	        error: function(request, message, error) {
+				alert('GRESKA: ' + error);
+			}
+	});
+	
+}
+
+
+function upvote(e) {
+	console.log(e);
+	var id =   e['id'].replace(/^upvoteDiv+/i, '');
+	console.log(id);
+	$.ajax({
+		 url: './CommentRates',
+			type: 'GET',
+	        dataType: 'json', 
+	        data: { "videoID" : getAllUrlParams(window.location.href).videoid, 
+	        		"commentID" : id,
+	        		"job" : "vote",
+	        		"like" : "true",
+	        },
+	        success: function(response) {
+	        	window.location.reload(false); 
+	        	
+	        },
+	        error: function(request, message, error) {
+				alert('GRESKA: ' + error);
+			}
+	});
+}
+
+function downvote(e) {
+	console.log(e);
+	var id =   e['id'].replace(/^downvoteDiv+/i, '');
+	console.log(id);
+	$.ajax({
+		 url: './CommentRates',
+			type: 'GET',
+	        dataType: 'json', 
+	        data: { "videoID" : getAllUrlParams(window.location.href).videoid, 
+	        		"commentID" : id,
+	        		"job" : "vote",
+	        		"like" : "false",
+	        },
+	        success: function(response) {
+	        	window.location.reload(false); 
+	        	
+	        },
+	        error: function(request, message, error) {
+				alert('GRESKA: ' + error);
+			}
+	});
+}
+
+function ifAdmin(id, deleted) {
+	
+	var divInfo = document.getElementById("videoContainer");
+	var btn = document.createElement("BUTTON");   
+	btn.innerHTML = 'Edit Video';
+	btn.onclick = function() {
+		window.location.replace('./videoEdit.html?videoId=' + id)
+	}
+	
+	var btn2 = document.createElement("BUTTON");   
+	
+	if(deleted == true) btn2.innerHTML = 'Undelete';
+	else btn2.innerHTML = 'Delete';
+	
+	btn2.onclick = function() {
+		window.location.replace('./DeleteVideo?videoId=' + id)
+	}
+	
+	//var button = $('<button id="edit" onclick="edit(this)">Edit Profile</button>');
+	divInfo.append(btn);
+	divInfo.append(btn2);
 }

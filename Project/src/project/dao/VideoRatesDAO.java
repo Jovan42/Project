@@ -1,5 +1,6 @@
 package project.dao;
 
+import java.io.Console;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -263,4 +264,120 @@ public class VideoRatesDAO  implements IDAO {
 	        }
 	        return videos;
     }
+    
+    public int getLikes(int videoID) {
+    	Connection conn = ConnectionManager.getConnection();
+		ArrayList<Integer> videos = new ArrayList<>();
+	    PreparedStatement pstmt = null;
+	    ResultSet rset = null;
+
+	    try {
+	    	String query = "SELECT * FROM videorates WHERE (videoID = ? AND videorates.like = 1)";
+	           
+            pstmt = conn.prepareStatement(query);
+           
+            pstmt.setInt(1, videoID);
+            System.out.println(pstmt);
+            rset = pstmt.executeQuery();
+
+            while(rset.next()) {
+            	int index = 1;
+            	int id = rset.getInt(index++);
+                boolean like = rset.getBoolean(index++);
+                Date created = rset.getDate(index++);
+                String ownerUserName = rset.getString(index++);
+                int video = rset.getInt(index++);
+                
+                VideoRate vr = new VideoRate(id, like, created, ownerUserName, video);
+                 
+                videos.add(vr.getId());     
+               
+            }
+	            
+	        } catch (SQLException ex) {
+	            System.out.println("Greska u SQL upitu!");
+	            ex.printStackTrace();
+
+	        } finally {
+	            try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+	            try {rset.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+	        }
+	    	System.out.println(videos.size());
+	        return videos.size();
+    }
+    
+    public int getDislikes(int videoID) {
+    	Connection conn = ConnectionManager.getConnection();
+		ArrayList<Integer> videos = new ArrayList<>();
+	    PreparedStatement pstmt = null;
+	    ResultSet rset = null;
+
+	    try {
+	    	String query = "SELECT * FROM videorates WHERE (videoID = ? AND videorates.like = 0)";
+	           
+            pstmt = conn.prepareStatement(query);
+           
+            pstmt.setInt(1, videoID);
+            System.out.println(pstmt);
+            rset = pstmt.executeQuery();
+
+            while(rset.next()) {
+            	int index = 1;
+            	int id = rset.getInt(index++);
+                boolean like = rset.getBoolean(index++);
+                Date created = rset.getDate(index++);
+                String ownerUserName = rset.getString(index++);
+                int video = rset.getInt(index++);
+                
+                VideoRate vr = new VideoRate(id, like, created, ownerUserName, video);
+                 
+                videos.add(vr.getId());     
+               
+            }
+	            
+	        } catch (SQLException ex) {
+	            System.out.println("Greska u SQL upitu!");
+	            ex.printStackTrace();
+
+	        } finally {
+	            try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+	            try {rset.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+	        }
+	    	System.out.println(videos.size());
+	        return videos.size();
+    }
+
+	public String getUsersRate(int videoID, String userName) {
+		Connection conn = ConnectionManager.getConnection();
+		ArrayList<Integer> videos = new ArrayList<>();
+	    PreparedStatement pstmt = null;
+	    ResultSet rset = null;
+	    String res = "none";
+	    try {
+	    	String query = "SELECT videorates.like FROM videorates WHERE (videoID = ? AND owner = ?)";
+	        
+            pstmt = conn.prepareStatement(query);
+           
+            pstmt.setInt(1, videoID);
+            pstmt.setString(2, userName);
+            System.out.println(pstmt);
+            rset = pstmt.executeQuery();
+
+            if(rset.next()) {
+            	boolean like = rset.getBoolean(1);
+                if(like) res = "like";
+                else res =  "dislike";
+            } else res = "none";
+	            
+	        } catch (SQLException ex) {
+	            System.out.println("Greska u SQL upitu!");
+	            ex.printStackTrace();
+
+	        } finally {
+	            try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+	            try {rset.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+	        }
+	    	System.out.println(videos.size());
+	        return res;
+	}
 }

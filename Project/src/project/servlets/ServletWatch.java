@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import project.dao.CommentsDAO;
+import project.dao.FollowingDAO;
+import project.dao.VideoRatesDAO;
 import project.dao.VideosDAO;
 import project.model.Comment;
 import project.model.User;
@@ -42,6 +44,7 @@ public class ServletWatch extends HttpServlet {
 		HttpSession session = request.getSession();
 		User loggedInUser = (User) session.getAttribute("loggedInUser");		
 		Map<String, Object> data = new HashMap<>();
+		boolean prati = false;
 		
 		Video video =(Video) VideosDAO.instance.get(videoID);
 		ArrayList<Comment> comments = CommentsDAO.instance.getFor(video.getId());
@@ -66,10 +69,27 @@ public class ServletWatch extends HttpServlet {
 			break;
 		}
 		
+		
 		String userName = loggedInUser == null ? "Guest" : loggedInUser.getUserName();
 		data.put("user", userName);
 		data.put("Video", video);
 		data.put("Comments", comments);
+		data.put("Likes", VideoRatesDAO.instance.getLikes(videoID));
+		data.put("Dislikes", VideoRatesDAO.instance.getDislikes(videoID));
+		if(userName.equals("Guest")) {
+			data.put("UserRate", "none");
+			
+			
+		} else {
+			data.put("user", loggedInUser.getUserName());
+			data.put("role", loggedInUser.isAdmin());
+			ArrayList<String> list = FollowingDAO.getFollowedBy(loggedInUser.getUserName());
+			for(String user : list) {
+				if(user.equals(userName)) prati = true;
+			}
+			data.put("UserRate", VideoRatesDAO.instance.getUsersRate(videoID, userName));
+		}
+		data.put("prati", prati);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		

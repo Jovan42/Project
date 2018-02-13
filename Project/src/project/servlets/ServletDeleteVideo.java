@@ -8,18 +8,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import project.dao.UsersDAO;
+import project.dao.VideosDAO;
 import project.model.User;
+import project.model.Video;
 
 /**
- * Servlet implementation class ServletLogin
+ * Servlet implementation class ServletDeleteVideo
  */
-public class ServletLogin extends HttpServlet {
+public class ServletDeleteVideo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletLogin() {
+    public ServletDeleteVideo() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,6 +30,23 @@ public class ServletLogin extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		int videoId = Integer.parseInt(request.getParameter("videoId"));
+		User loggedInUser = (User) session.getAttribute("loggedInUser");
+		Video video = (Video)VideosDAO.instance.get(videoId);
+		if(loggedInUser == null || (!loggedInUser.isAdmin() && !loggedInUser.getUserName().equals(video.getOwnersUserName())) ) {
+			response.sendRedirect("./main.html");
+			return;
+		}
+		
+		video.setDeleted(true);
+		VideosDAO.instance.update(video, videoId);
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		response.sendRedirect("./main.html");
 	}
 
@@ -35,20 +54,8 @@ public class ServletLogin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userName = request.getParameter("userName").trim();
-		String password = request.getParameter("password1").trim();
-		
-		if(!UsersDAO.instance.checkOnLogIn(userName, password)) {
-			response.sendRedirect("./wrongPass.html");
-		} else {
-			
-			User user = (User)UsersDAO.instance.get(userName);
-			if(user.isBanned() || user.isDeleted()) response.sendRedirect("./profileDeleted.html");
-			System.out.println(user.getUserName() + user.getPassword());
-			HttpSession session = request.getSession();
-			session.setAttribute("loggedInUser", user);
-			response.sendRedirect("./main.html");
-		}
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }

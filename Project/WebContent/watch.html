@@ -8,6 +8,7 @@
     <script src="js/jquery-2.1.0.min.js"></script>
 	<script src="js/watch.js"></script>
 	<script src="js/header.js"></script>
+	<script src="js/follow.js"></script>
 </head>
 <body>
 	 <header>
@@ -31,10 +32,19 @@
     </header>
     <div id="content"> 
     <div id='videoContainer'>
-    	<iframe width="560"  height="315" src="https://www.youtube.com/embed/?color=white" id="video"></iframe> 
+    	<iframe width="560"  height="315" src="https://www.youtube.com/embed/?color=white" id="video"  allowfullscreen="allowfullscreen"></iframe> 
     	<h2 id="name" >Name: </h2>
-    	<p id="owner">By</p> 
+   		 <a href="#" id="owner"></a>
     	<p id="date">date</p>
+    	<div id="upvoteDiv" class="vote" onclick="upvote(this)">
+    		<img alt="upvote" id="upvoteImg" src="img/upvote.png"  height="50px">
+    		<p id="upvotes">0</p>
+    	</div>
+    	<div id="downvoteDiv" class="vote" onclick="downvote(this)">
+    		<img alt="downvote" id="downvoteImg" src="img/downvote.png" height="50px">
+    		<p id="downvotes">0</p>
+    	</div>
+    	<button onclick="follow(this)">Follow</button>
     </div>
     <div id="comments">
     	<h2>Comments: </h2>

@@ -1,4 +1,50 @@
 #content {
 	margin-top: 120px;
 	color: white;
+	background: black;
+}
+
+.value {
+	color: white;	
+	display: inline-block;
+	margin-left: 0;
+}
+
+.desc {
+	display: inline-block;
+	color: gray;
+}
+
+#info {
+	border: solid;
+	color: white;
+	margin: 1%;
+	padding: 2%;
+	background: #1a1a1a;
+}
+
+.infoContainer {
+	border: solid;
+	color: white;
+	margin-top : 0%;
+	padding: 0.5%;
+	background: #050505;
+}
+
+#followers {
+	border: solid;
+	color: white;
+	margin: 1%;
+	padding: 2%;
+	background: #1a1a1a;
+}
+
+button {
+	background: #050505;
+	width : 19%;
+	margin : 1%;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
 }

@@ -58,6 +58,7 @@ h2 {
 .comDiv {
 	 background: #1a1a1a;
 	 margin: 2%;
+	 padding-bottom: 3%;
 }
 #owner {
 	margin-left: 10%;
@@ -69,4 +70,31 @@ h2 {
 	margin-left: 10%;
 	display: table;
 	color: white;
+}
+
+.vote {
+	float: right;
+	display: inline-block;
+	width: 80px;
+}
+
+.vote:hover {
+	cursor: pointer;
+	}
+.vote img {
+	display: inline-block;
+}
+.vote p {
+	display: inline-block;
+	width: auto;
+}
+
+button {
+		width : 19%;
+	background-color: #1a1a1a;
+    color: white;
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    margin-left : 2%; 	
 }
